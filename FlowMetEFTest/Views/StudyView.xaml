@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="FlowMetEFTest.Views.StudyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlowMetEFTest.Views"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="70*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <ListView Grid.Column="0" SelectedItem="{Binding SelectedPatient}" ItemsSource="{Binding PatientIdentifiers}"
+                  cal:Message.Attach="[Event SelectionChanged] = [Action PatientSelectionChanged]"/>
+        <DataGrid Grid.Column="1" AutoGenerateColumns="False" ItemsSource="{Binding AllStudies}"
+                  SelectedItem="{Binding SelectedStudy}">
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
+                </Style>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Study.StartDate}" Header="Start Date"/>
+                <DataGridTextColumn Binding="{Binding Study.EndDate}" Header="End Date"/>
+                <DataGridTextColumn Binding="{Binding Study.Notes}" Header="Notes" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="ReturnToPatientsView" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="Go Back to Patients"/>
+    </Grid>
+</UserControl>
